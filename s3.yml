@@ -1,0 +1,4 @@
+---
+
+- name: run sync
+  s3_sync:

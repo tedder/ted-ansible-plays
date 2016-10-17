@@ -1,0 +1,38 @@
+---
+- set_fact: "random_string_to_force_cloudformation_update=x"
+#- name: ensure CF stack is gone
+#  #cloudformation: stack_name="cloudformation2" region=us-west-2 state=absent
+#  cloudformation: stack_name="cloudformation2" state=absent
+#  register: cloudformation_absent
+#- debug: var=cloudformation_absent
+#- fail: msg=x
+- name: Launch Cloud Formation
+  run_once: true
+  cloudformation:
+    stack_name: "cloudformation2"
+    state: present
+    disable_rollback: no
+    #template: "roles/cf/files/sg.json"
+    template: "roles/cf/files/sg.yml"
+    #template_url: "https://s3.amazonaws.com/bucketname/cf/sg.json"
+    #template_url: "https://s3.amazonaws.com/bucketname/cf/sg.yml"
+    template_format: yaml
+    stack_policy: "roles/cf/files/policy.json"
+    tags:
+      fart: barf
+      foo: baz
+      hello: worldsssss
+      #"{{taglist}}"
+    #notification_arns:"arn:aws:sns:us-west-2:xx:ted-test,arn:aws:sns:us-west-2:xx:ted-test-2"
+  # notification_arns="arn:aws:sns:us-west-2:xx:ted-test,arn:aws:sns:us-west-2:xx:ted-test-2"
+  # notification_arns="invalid"
+  # notification_arns=""
+  #args:
+  #  template_parameters:
+  #    KeyName: "xxx"
+  register: cloudformation_run
+- debug: var=cloudformation_run
+#- name: ensure CF stack is gone
+#  cloudformation: stack_name="cloudformation2" region=us-west-2 state=absent
+#  register: cloudformation_absent2
+#- debug: var=cloudformation_absent2
